@@ -1,18 +1,19 @@
-import express from 'express';
-import {
-  getAllRecipes,
-  getRecipeById,
-  createRecipe,
-  updateRecipe,
-  deleteRecipe
-} from '../controllers/recipeController.js';
 
-const router = express.Router();
+// models/Recipe.js
+import mongoose from 'mongoose';
 
-router.get('/', getAllRecipes);
-router.get('/:id', getRecipeById);
-router.post('/', createRecipe);
-router.put('/:id', updateRecipe);
-router.delete('/:id', deleteRecipe);
+const recipeSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  ingredients: [String],
+  instructions: String,
+  image: String,
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+});
 
-export default router;
+export default mongoose.model('Recipe', recipeSchema);
